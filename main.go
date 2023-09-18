@@ -16,7 +16,7 @@ func main()  {
 	config.AllowOrigins = []string{"*"}
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
 	router.Use(cors.New(config))
-
+	
 	router.POST("/api/calculate", calculatecontroller.Create)
 
 	router.Run()

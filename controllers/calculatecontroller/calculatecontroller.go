@@ -2,6 +2,7 @@ package calculatecontroller
 
 import (
 	"api-akar-kuadrat/models"
+	"math"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -47,5 +48,9 @@ func hitungakar(number float64) float64 {
 			break
 		}
 	}
+	// mengambil 5 angka belakang koma
+	squareroot *= 100000
+	round_squareroot := int(math.Floor(squareroot))
+	squareroot = float64(round_squareroot)/100000
 	return squareroot
 }
