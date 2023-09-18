@@ -8,34 +8,34 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Create(context *gin.Context)  {
+func Create(context *gin.Context) {
 	var inputData struct {
-        Number float64 `json:"number" binding:"required"`
-    }
+		Number float64 `json:"number" binding:"required"`
+	}
 
-    if err := context.ShouldBindJSON(&inputData); err != nil {
+	if err := context.ShouldBindJSON(&inputData); err != nil {
 		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
-        return
-    }
+		return
+	}
 	// validation
-	if inputData.Number <= 0 {
+	if inputData.Number <= 1 {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Value must be a positive number"})
 		return
 	}
 
-    hasilAkarKuadrat := hitungakar(inputData.Number)
+	hasilAkarKuadrat := hitungakar(inputData.Number)
 
-    calculation := models.Calculate{
-        Number:       inputData.Number,
-        Akarkuadrat: hasilAkarKuadrat,
-    }
+	calculation := models.Calculate{
+		Number:      inputData.Number,
+		Akarkuadrat: hasilAkarKuadrat,
+	}
 
-    if err := models.DB.Create(&calculation).Error; err != nil {
-        context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to create calculation record"})
-        return
-    }
+	if err := models.DB.Create(&calculation).Error; err != nil {
+		context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to create calculation record"})
+		return
+	}
 
-    context.JSON(http.StatusOK, gin.H{"calculation": calculation.Akarkuadrat})
+	context.JSON(http.StatusOK, gin.H{"calculation": calculation.Akarkuadrat})
 }
 
 func hitungakar(number float64) float64 {
@@ -51,6 +51,6 @@ func hitungakar(number float64) float64 {
 	// mengambil 5 angka belakang koma
 	squareroot *= 100000
 	round_squareroot := int(math.Floor(squareroot))
-	squareroot = float64(round_squareroot)/100000
+	squareroot = float64(round_squareroot) / 100000
 	return squareroot
 }
