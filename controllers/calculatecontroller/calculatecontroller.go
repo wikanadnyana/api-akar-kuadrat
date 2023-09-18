@@ -1,24 +1,26 @@
 package calculatecontroller
 
 import (
-	"net/http"
-
 	"api-akar-kuadrat/models"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Create(context *gin.Context)  {
 	var inputData struct {
-        Number float64 `json:"number"`
+        Number float64 `json:"number" binding:"required"`
     }
-
-	// validation
 
     if err := context.ShouldBindJSON(&inputData); err != nil {
-        context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
         return
     }
+	// validation
+	if inputData.Number <= 0 {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Value must be a positive number"})
+		return
+	}
 
     hasilAkarKuadrat := hitungakar(inputData.Number)
 
