@@ -1,7 +1,6 @@
 package calculatecontroller
 
 import (
-	"math"
 	"net/http"
 
 	"api-akar-kuadrat/models"
@@ -21,17 +20,30 @@ func Create(context *gin.Context)  {
         return
     }
 
-    hasilAkarKuadrat := math.Sqrt(inputData.Number)
+    hasilAkarKuadrat := hitungakar(inputData.Number)
 
     calculation := models.Calculate{
         Number:       inputData.Number,
-        HasilAkarKuadrat: hasilAkarKuadrat,
+        Akarkuadrat: hasilAkarKuadrat,
     }
 
     if err := models.DB.Create(&calculation).Error; err != nil {
-        c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to create calculation record"})
+        context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Failed to create calculation record"})
         return
     }
 
-    c.JSON(http.StatusOK, gin.H{"calculation": calculation})
+    context.JSON(http.StatusOK, gin.H{"calculation": calculation.Akarkuadrat})
+}
+
+func hitungakar(number float64) float64 {
+	var squareroot float64 = number / 2
+	var temp float64
+	for {
+		temp = squareroot
+		squareroot = (temp + (number / temp)) / 2
+		if (temp - squareroot) == 0 {
+			break
+		}
+	}
+	return squareroot
 }
