@@ -11,7 +11,7 @@ func TestHitungAkar(t *testing.T) {
 	for i < 4 {
 		result := hitungakar(float64(testingData[i]))
 		hasilSeharusnya := math.Sqrt(float64(testingData[i]))
-		hasilSeharusnya = math.Floor(hasilSeharusnya*100000) / 100000
+		hasilSeharusnya = math.Floor(hasilSeharusnya * 100000) / 100000
 
 		t.Logf("Input: %d, Hasil Akar: %f, Hasil Seharusnya: %f", testingData[i], result, hasilSeharusnya)
 		if result != hasilSeharusnya {

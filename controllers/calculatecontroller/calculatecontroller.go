@@ -25,6 +25,11 @@ func Create(context *gin.Context) {
 
 	hasilAkarKuadrat := hitungakar(inputData.Number)
 
+	if hasilAkarKuadrat == -92233720368547.77{
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Angka melebihi kapasitas"})
+		return
+	}
+
 	calculation := models.Calculate{
 		Number:      inputData.Number,
 		Akarkuadrat: hasilAkarKuadrat,
