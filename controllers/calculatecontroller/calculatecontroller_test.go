@@ -22,7 +22,7 @@ func TestHitungAkar(t *testing.T) {
 }
 
 func TestBoundary(t *testing.T) {
-	testingData := [4]int{1, 1, 2520000000000, 9000032800}
+	testingData := [4]int{15000, 1, 2520000000000, 9000032800}
 	i := 0
 	for i < 4 {
 		result := hitungakar(float64(testingData[i]))
