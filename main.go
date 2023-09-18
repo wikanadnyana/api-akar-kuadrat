@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"api-akar-kuadrat/controllers/calculatecontroller"
+	"api-akar-kuadrat/models"
 
-func main(){
-	fmt.Println("Hello World")
+	"github.com/gin-gonic/gin"
+)
+
+func main()  {
+	router:= gin.Default()
+	models.ConnectDatabase()
+
+	router.POST("/api/calculate", calculatecontroller.Create)
+
+	router.Run()
 }
