@@ -10,7 +10,7 @@ import (
 
 func Create(context *gin.Context) {
 	var inputData struct {
-		Number float64 `json:"number" binding:"required"`
+		Number float64 `json:"number"`
 	}
 
 	if err := context.ShouldBindJSON(&inputData); err != nil {
@@ -18,17 +18,26 @@ func Create(context *gin.Context) {
 		return
 	}
 	// validation
-	if inputData.Number <= 1 {
+	if inputData.Number < 0 {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Value must be a positive number"})
 		return
 	}
 
-	hasilAkarKuadrat := hitungakar(inputData.Number)
+	var hasilAkarKuadrat float64
+
+	if inputData.Number == 0 {
+		hasilAkarKuadrat = 0
+	}else{
+		hasilAkarKuadrat = hitungakar(inputData.Number)
+	}
+	
+
 
 	if hasilAkarKuadrat == -92233720368547.77{
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Angka melebihi kapasitas"})
 		return
 	}
+
 
 	calculation := models.Calculate{
 		Number:      inputData.Number,
